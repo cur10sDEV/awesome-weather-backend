@@ -1,0 +1,10 @@
+services:
+  server:
+    container_name: prod-server
+    build:
+      context: ../../
+      dockerfile: docker/production/Dockerfile.prod
+    restart: always
+    image: prod-server
+    ports:
+      - 3001:3001

@@ -1,0 +1,31 @@
+FROM node:lts-bookworm-slim AS base
+
+# run as user - node
+USER node
+
+# Create work directory
+WORKDIR /usr/src/app
+
+# providing ownership to node(non-root) user
+RUN chown -R node:node /usr/src/app
+
+# make logs dir
+RUN mkdir /usr/src/app/logs && chown -R node:node /usr/src/app/logs
+
+# Copy package.json and package-lock.json
+COPY package*.json .
+
+# Install all dependecies
+RUN npm ci
+
+# Copy source files
+COPY . .
+
+# Set NODE_ENV=development
+ENV NODE_ENV development
+
+# Expose port
+EXPOSE 3001
+
+# Run the app
+CMD ["npm", "run", "dev"]
