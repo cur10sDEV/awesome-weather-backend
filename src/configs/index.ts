@@ -12,4 +12,5 @@ export const appConfig = {
   appName: process.env["APP_NAME"] ?? defaultConfig.appName,
   env: process.env["NODE_ENV"] ?? defaultConfig.env,
   allowedOrigins: [...defaultConfig.allowedOrigins, process.env["CORS_ORIGIN"] ?? "http://localhost:3000"],
+  jwksUri: process.env.JWKS_URI ?? defaultConfig.jwksUri,
 };

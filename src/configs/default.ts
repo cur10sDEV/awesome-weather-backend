@@ -5,4 +5,5 @@ export const defaultConfig = {
   env: "production",
   appName: "test-app",
   allowedOrigins: [],
+  jwksUri: "",
 };
