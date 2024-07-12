@@ -1,6 +1,6 @@
 import { appConfig } from "@/configs";
-import { HttpStatusCode } from "@/types";
 import { ApiError } from "@/utils/apiError";
+import { HttpStatusCode } from "@/utils/httpCodes";
 import cors from "cors";
 
 const corsHandler = cors({

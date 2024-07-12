@@ -6,4 +6,5 @@ export const defaultConfig = {
   appName: "test-app",
   allowedOrigins: [],
   jwksUri: "",
+  clerkWebhookSecretKey: "",
 };

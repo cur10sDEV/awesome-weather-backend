@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, raw } from "express";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import { appConfig } from "./configs";
@@ -10,6 +10,7 @@ import { errorHandler } from "./middlewares/errorHandler";
 import limiter from "./middlewares/rateLimiter";
 import setCache from "./middlewares/setCache";
 import router from "./routes";
+import webhookRouter from "./routes/webhook.route";
 
 const PORT = appConfig.port;
 
@@ -22,12 +23,14 @@ app.disable("x-powered-by");
 app.use(apiLogger);
 app.use(corsHandler);
 // app.enable("trust proxy"); // enable this when using nginx as reverse proxy as it will handle ratelimiting
-app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(helmet());
 app.use(limiter);
 app.use(setCache);
 
+app.use("/api/v1/webhooks", raw({ type: "application/json" }), webhookRouter);
+
+app.use(express.json());
 // routes
 app.use("/api/v1", router);
 

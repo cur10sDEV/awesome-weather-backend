@@ -13,4 +13,5 @@ export const appConfig = {
   env: process.env["NODE_ENV"] ?? defaultConfig.env,
   allowedOrigins: [...defaultConfig.allowedOrigins, process.env["CORS_ORIGIN"] ?? "http://localhost:3000"],
   jwksUri: process.env.JWKS_URI ?? defaultConfig.jwksUri,
+  clerkWebhookSecretKey: process.env.CLERK_WEBHOOK_SECRET_KEY ?? defaultConfig.clerkWebhookSecretKey,
 };

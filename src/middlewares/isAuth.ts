@@ -1,6 +1,8 @@
 import { appConfig } from "@/configs";
-import { HttpStatusCode } from "@/types";
+import { UserService } from "@/services/user.service";
+import { IClerkSession } from "@/types/clerk";
 import { ApiError } from "@/utils/apiError";
+import { HttpStatusCode } from "@/utils/httpCodes";
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtHeader, SigningKeyCallback } from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
@@ -19,7 +21,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
 
     if (!token) {
       throw new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized!", [
-        { type: "Invalid Request", message: "Authorization token not present!" },
+        { type: "Invalid Request", message: "Authorization Token not present!" },
       ]);
     }
 
@@ -34,12 +36,35 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
       });
     }
 
-    jwt.verify(token, getKey, {}, function (err, decoded) {
-      // TODO: check for the user in database and then set proper properties to req object else
-      // throw error
-    });
+    jwt.verify(token, getKey, {}, async function (err, decoded) {
+      if (err) {
+        return res
+          .status(HttpStatusCode.UNAUTHORIZED)
+          .json(
+            new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized!", [
+              { type: "Invalid Request", message: "Authorization Token verification failed!" },
+            ])
+          );
+      }
 
-    next();
+      if (decoded) {
+        const decodedToken = decoded as IClerkSession;
+        const user = await UserService.getUserByClerkId(decodedToken.user_id);
+
+        if (!user) {
+          return res
+            .status(HttpStatusCode.UNAUTHORIZED)
+            .json(
+              new ApiError(HttpStatusCode.UNAUTHORIZED, "Invalid Request", [
+                { type: "Invalid Request", message: "Authorization Token not valid!" },
+              ])
+            );
+        }
+
+        req.user = { id: user.id, email: user.email };
+        next();
+      }
+    });
   } catch (error) {
     next(error);
   }
