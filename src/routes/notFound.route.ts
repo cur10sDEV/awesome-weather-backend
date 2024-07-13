@@ -1,5 +1,5 @@
-import { HttpStatusCode } from "@/types";
 import { ApiError } from "@/utils/apiError";
+import { HttpStatusCode } from "@/utils/httpCodes";
 import { Router } from "express";
 
 const router = Router();

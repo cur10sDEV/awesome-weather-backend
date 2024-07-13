@@ -2,9 +2,15 @@ interface IError {
   type: string;
   message: string;
 }
+
+interface IValidationError {
+  path: string;
+  message: string;
+}
+
 export class ApiError extends Error {
   statusCode: number;
-  errors: IError[];
+  errors: IError[] | IValidationError[];
   success: boolean;
   message: string;
   stack?: string | undefined;

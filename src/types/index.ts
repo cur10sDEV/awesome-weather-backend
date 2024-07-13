@@ -8,3 +8,8 @@ declare global {
     }
   }
 }
+
+export interface ICoordinates {
+  lat: string;
+  long: string;
+}

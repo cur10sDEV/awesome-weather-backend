@@ -7,4 +7,5 @@ export const defaultConfig = {
   allowedOrigins: [],
   jwksUri: "",
   clerkWebhookSecretKey: "",
+  openWeatherApiKey: "",
 };

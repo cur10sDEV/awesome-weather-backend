@@ -1,5 +1,5 @@
-import { HttpStatusCode } from "@/types";
 import { ApiError } from "@/utils/apiError";
+import { HttpStatusCode } from "@/utils/httpCodes";
 import { NextFunction, Request, Response } from "express";
 import { AnyZodObject, z } from "zod";
 
@@ -21,7 +21,7 @@ const validate =
         err = err.issues.map((e) => ({ path: e.path[0], message: e.message }));
       }
 
-      next(new ApiError(HttpStatusCode.BAD_REQUEST, err[0]?.message || err?.message || "Bad Request"));
+      next(new ApiError(HttpStatusCode.BAD_REQUEST, err[0]?.message || err?.message || "Bad Request", [...err]));
     }
   };
 
