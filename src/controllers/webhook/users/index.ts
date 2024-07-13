@@ -5,6 +5,7 @@ import { ApiResponse } from "@/utils/apiResponse";
 import { HttpStatusCode } from "@/utils/httpCodes";
 import { RequestHandler } from "express";
 import { Webhook } from "svix";
+import { generateFromEmail } from "unique-username-generator";
 
 export const userWebhookHandler: RequestHandler = async function (req, res, next) {
   const WEBHOOK_SECRET = appConfig.clerkWebhookSecretKey;
@@ -54,7 +55,7 @@ export const userWebhookHandler: RequestHandler = async function (req, res, next
 
     const user = await UserService.createUser({
       clerkId: id,
-      username: username ?? "user123",
+      username: username ?? generateFromEmail(email_addresses[0].email_address, 3),
       email: email_addresses[0].email_address,
       avatar: image_url,
     });
@@ -69,7 +70,7 @@ export const userWebhookHandler: RequestHandler = async function (req, res, next
 
     const user = await UserService.updateUser({
       clerkId: id,
-      username: username ?? "user124",
+      username: username ?? generateFromEmail(email_addresses[0].email_address, 3),
       email: email_addresses[0].email_address,
       avatar: image_url,
     });
