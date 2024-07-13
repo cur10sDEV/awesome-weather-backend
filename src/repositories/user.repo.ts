@@ -1,5 +1,5 @@
 import { User } from "@/models/user.model";
-import { UserRegistration } from "@/schemas/user.schema";
+import { IUserRegistration } from "@/types/user";
 
 export class UserRepo {
   static async getUserByClerkId(clerkId: string) {
@@ -8,7 +8,7 @@ export class UserRepo {
     return user;
   }
 
-  static async createUser(data: UserRegistration) {
+  static async createUser(data: IUserRegistration) {
     const user = await User.create({
       clerkId: data.clerkId,
       email: data.email,
@@ -19,7 +19,7 @@ export class UserRepo {
     return user;
   }
 
-  static async updateUser(data: UserRegistration) {
+  static async updateUser(data: IUserRegistration) {
     const user = await User.findOneAndUpdate(
       { clerkId: data.clerkId },
       {

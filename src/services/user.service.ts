@@ -1,7 +1,7 @@
 import logger from "@/configs/logger";
 import { UserMapper } from "@/mappers/user.mapper";
 import { UserRepo } from "@/repositories/user.repo";
-import { UserRegistration } from "@/schemas/user.schema";
+import { IUserRegistration } from "@/types/user";
 
 export class UserService {
   static async getUserByClerkId(clerkId: string) {
@@ -20,7 +20,7 @@ export class UserService {
     }
   }
 
-  static async createUser(data: UserRegistration) {
+  static async createUser(data: IUserRegistration) {
     try {
       const user = await UserRepo.createUser(data);
 
@@ -36,7 +36,7 @@ export class UserService {
     }
   }
 
-  static async updateUser(data: UserRegistration) {
+  static async updateUser(data: IUserRegistration) {
     try {
       const user = await UserRepo.updateUser(data);
 
