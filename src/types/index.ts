@@ -15,15 +15,15 @@ export interface ICoordinates {
 }
 
 export enum Units {
-  "metric",
-  "standard",
-  "imperial",
+  metric = "metric",
+  standard = "standard",
+  imperial = "imperial",
 }
 
-export enum AQILevels {
-  "Good" = 1,
-  "Fair" = 2,
-  "Moderate" = 3,
-  "Poor" = 4,
-  "Very Poor" = 5,
-}
+export const AQILevels = {
+  1: "Good",
+  2: "Fair",
+  3: "Moderate",
+  4: "Poor",
+  5: "Very Poor",
+};

@@ -24,7 +24,7 @@
     "eslint-plugin-import/prefer-default-export": "off",
     "import/no-default-export": "error",
     "eslint-plugin-import/no-default-export": "error",
-    "no-console": "off",
+    "no-console": "error",
     "eslint-plugin-import/order": [
       "error",
       {
