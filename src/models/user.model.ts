@@ -9,7 +9,7 @@ export interface IUser extends Document {
     name: string;
     country: string;
     lat: string;
-    long: string;
+    lon: string;
   };
   units: "standard" | "imperial" | "metric";
   timeFormat: 24 | 12;
@@ -32,7 +32,7 @@ const userSchema = new Schema<IUser, UserModel>({
     name: { type: String, required: true, min: 1, max: 60, default: "Indore" },
     country: { type: String, required: true, min: 1, max: 60, default: "India" },
     lat: { type: String, required: true, min: 0, max: 100, default: "22.7015332" },
-    long: { type: String, required: true, min: 0, max: 100, default: "75.8570363" },
+    lon: { type: String, required: true, min: 0, max: 100, default: "75.8570363" },
   },
   units: { type: String, required: true, default: "metric" },
   timeFormat: { type: Number, required: true, default: 24 },

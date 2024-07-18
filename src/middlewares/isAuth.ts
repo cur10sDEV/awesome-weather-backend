@@ -49,9 +49,9 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
 
       if (decoded) {
         const decodedToken = decoded as IClerkSession;
-        const user = await UserService.getUserByClerkId(decodedToken.user_id);
+        const data = await UserService.getUserByClerkId(decodedToken.user_id);
 
-        if (!user) {
+        if (!data || !data.data) {
           return res
             .status(HttpStatusCode.UNAUTHORIZED)
             .json(
@@ -61,6 +61,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
             );
         }
 
+        const user = data.data;
         req.user = { id: user.id, email: user.email };
         next();
       }

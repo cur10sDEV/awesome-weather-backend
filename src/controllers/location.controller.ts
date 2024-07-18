@@ -5,10 +5,6 @@ import { ApiResponse } from "@/utils/apiResponse";
 import { HttpStatusCode } from "@/utils/httpCodes";
 import { RequestHandler } from "express";
 
-interface ILocationController {
-  getLocations: RequestHandler;
-}
-
 export class LocationController {
   static getLocations: RequestHandler = async (req, res, next) => {
     try {
@@ -17,7 +13,7 @@ export class LocationController {
       const locations = await LocationService.geocode(city as string);
 
       if (!locations) {
-        throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Error fetching locations!");
+        throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to fetch locations!");
       }
 
       return res

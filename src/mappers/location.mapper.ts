@@ -1,4 +1,4 @@
-import { GeocodeDTO } from "@/dtos/location.dto";
+import { IGeocodeDTO } from "@/dtos/location.dto";
 
 interface IGeocodeApiResponseData {
   name: string;
@@ -12,12 +12,12 @@ interface IGeocodeApiResponseData {
 }
 
 export class LocationMapper {
-  static toDTO(data: IGeocodeApiResponseData[]): GeocodeDTO {
+  static toDTO(data: IGeocodeApiResponseData[]): IGeocodeDTO {
     const dataDto = data.map((item) => {
       return {
         name: item.name,
         lat: String(item.lat),
-        long: String(item.lon),
+        lon: String(item.lon),
         country: item.country,
         state: item.state,
       };

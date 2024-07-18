@@ -1,11 +1,11 @@
-export interface GeocodeDTOItem {
+export interface IGeocodeDTOItem {
   name: string;
   lat: string;
-  long: string;
+  lon: string;
   country: string;
   state: string;
 }
 
-export interface GeocodeDTO {
-  data: GeocodeDTOItem[];
+export interface IGeocodeDTO {
+  data: IGeocodeDTOItem[];
 }
