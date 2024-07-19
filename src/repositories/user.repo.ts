@@ -2,6 +2,12 @@ import { User } from "@/models/user.model";
 import { IUserRegistration } from "@/types/user";
 
 export class UserRepo {
+  static async getUserById(userId: string) {
+    const user = await User.findById(userId);
+
+    return user;
+  }
+
   static async getUserByClerkId(clerkId: string) {
     const user = await User.findOne({ clerkId: clerkId });
 

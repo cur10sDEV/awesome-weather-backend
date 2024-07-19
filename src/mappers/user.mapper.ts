@@ -1,4 +1,4 @@
-import { IUserDTO } from "@/dtos/user.dto";
+import { IUserDTO, IUserProfileDTO } from "@/dtos/user.dto";
 import { IUser } from "@/models/user.model";
 import { HydratedDocument } from "mongoose";
 
@@ -25,6 +25,26 @@ export class UserMapper {
           highTemp: data.limits.highTemp,
         },
         savedCities: data.savedCities,
+      },
+    };
+  }
+
+  static toProfileDTO(data: HydratedDocument<IUser>): IUserProfileDTO {
+    return {
+      data: {
+        city: {
+          name: data.city.name,
+          country: data.city.country,
+          lat: data.city.lat,
+          lon: data.city.lon,
+        },
+        units: data.units,
+        timeFormat: data.timeFormat,
+        limits: {
+          aqiLimit: data.limits.aqiLimit,
+          highTemp: data.limits.highTemp,
+          lowTemp: data.limits.lowTemp,
+        },
       },
     };
   }

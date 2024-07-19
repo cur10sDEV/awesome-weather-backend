@@ -4,6 +4,23 @@ import { UserRepo } from "@/repositories/user.repo";
 import { IUserRegistration } from "@/types/user";
 
 export class UserService {
+  static async getUserProfile(userId: string) {
+    try {
+      const user = await UserRepo.getUserById(userId);
+
+      if (!user) {
+        return null;
+      }
+
+      const userProfileDto = UserMapper.toProfileDTO(user);
+
+      return userProfileDto;
+    } catch (error) {
+      logger.error(error);
+      return null;
+    }
+  }
+
   static async getUserByClerkId(clerkId: string) {
     try {
       const user = await UserRepo.getUserByClerkId(clerkId);
