@@ -1,6 +1,4 @@
 import { isAuth } from "@/middlewares/isAuth";
-import validate from "@/middlewares/validate";
-import { getLocationSchema, getWeatherSchema } from "@/schemas";
 import { Router } from "express";
 import healthCheckRouter from "./healthCheck.route";
 import locationRouter from "./location.route";
@@ -17,10 +15,10 @@ router.use("/health-check", healthCheckRouter);
 router.use("/users", isAuth, userRouter);
 
 // location routes
-router.use("/location", isAuth, validate(getLocationSchema), locationRouter);
+router.use("/location", isAuth, locationRouter);
 
 // weather routes
-router.use("/weather", isAuth, validate(getWeatherSchema), weatherRouter);
+router.use("/weather", isAuth, weatherRouter);
 
 // 404 routes
 router.use("*", notFoundRouter);
