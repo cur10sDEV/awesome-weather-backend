@@ -1,4 +1,5 @@
 import { User } from "@/models/user.model";
+import { UpdateUserSchema } from "@/schemas/user.schema";
 import { IUserRegistration } from "@/types/user";
 
 export class UserRepo {
@@ -43,5 +44,13 @@ export class UserRepo {
     const user = await User.findOneAndDelete({ clerkId: clerkId });
 
     return user;
+  }
+
+  static async updateUserSettings(userId: string, data: UpdateUserSchema) {
+    const updatedSettings = await User.findByIdAndUpdate(userId, {
+      ...data,
+    });
+
+    return updatedSettings !== null;
   }
 }

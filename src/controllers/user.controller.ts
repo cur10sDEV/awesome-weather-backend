@@ -28,4 +28,28 @@ export class UserController {
       next(error);
     }
   };
+
+  static updateUserSettings: RequestHandler = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+      const data = req.body;
+
+      if (!userId) {
+        throw new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized access!");
+      }
+
+      const isUpdated = await UserService.updateUserSettings(userId, data);
+
+      if (!isUpdated) {
+        throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to update user settings!");
+      }
+
+      return res
+        .status(HttpStatusCode.OK)
+        .json(new ApiResponse(HttpStatusCode.OK, "User settings updated successfully!"));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  };
 }

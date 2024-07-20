@@ -1,6 +1,7 @@
 import logger from "@/configs/logger";
 import { UserMapper } from "@/mappers/user.mapper";
 import { UserRepo } from "@/repositories/user.repo";
+import { UpdateUserSchema } from "@/schemas/user.schema";
 import { IUserRegistration } from "@/types/user";
 
 export class UserService {
@@ -81,6 +82,21 @@ export class UserService {
       return userDto;
     } catch (err) {
       logger.error(err);
+      return null;
+    }
+  }
+
+  static async updateUserSettings(userId: string, data: UpdateUserSchema) {
+    try {
+      const res = await UserRepo.updateUserSettings(userId, data);
+
+      if (!res) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      logger.error(error);
       return null;
     }
   }
