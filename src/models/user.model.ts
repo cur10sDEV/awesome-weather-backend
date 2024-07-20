@@ -14,7 +14,7 @@ export interface IUser extends Document {
   units: "standard" | "imperial" | "metric";
   timeFormat: 24 | 12;
   limits: {
-    aqiLimit: number;
+    aqi: number;
     lowTemp: number;
     highTemp: number;
   };
@@ -30,18 +30,21 @@ const userSchema = new Schema<IUser, UserModel>({
   avatar: { type: String, required: true, min: 1, max: 512 },
   city: {
     name: { type: String, required: true, min: 1, max: 60, default: "Indore" },
-    country: { type: String, required: true, min: 1, max: 60, default: "India" },
-    lat: { type: String, required: true, min: 0, max: 100, default: "22.7015332" },
-    lon: { type: String, required: true, min: 0, max: 100, default: "75.8570363" },
+    country: { type: String, required: true, min: 1, max: 60, default: "IN" },
+    lat: { type: String, required: true, min: 1, max: 100, default: "22.7015332" },
+    lon: { type: String, required: true, min: 1, max: 100, default: "75.8570363" },
   },
   units: { type: String, required: true, default: "metric" },
   timeFormat: { type: Number, required: true, default: 24 },
   limits: {
-    aqiLimit: { type: Number, required: true, default: 100, min: 100, max: 500 },
-    lowTemp: { type: Number, required: true, default: 10, min: -50, max: 25 }, // these default values are in clesius
-    highTemp: { type: Number, required: true, default: 35, min: 10, max: 100 },
+    aqi: { type: Number, required: true, default: 100, min: 100, max: 500 },
+    lowTemp: { type: Number, required: true, default: 10, min: -58, max: 299 },
+    highTemp: { type: Number, required: true, default: 35, min: 10, max: 374 },
   },
   savedCities: { type: [Schema.Types.ObjectId], ref: "City" },
 });
 
 export const User: UserModel = models.User || model<IUser, UserModel>("User", userSchema);
+
+// default values are in celsius
+// min and max values are min and max possible values in all units

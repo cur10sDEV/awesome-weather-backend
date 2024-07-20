@@ -16,7 +16,7 @@ export interface IUserDTO {
     units: "standard" | "imperial" | "metric";
     timeFormat: 24 | 12;
     limits: {
-      aqiLimit: number;
+      aqi: number;
       lowTemp: number;
       highTemp: number;
     };
@@ -35,7 +35,7 @@ export interface IUserProfileDTO {
     units: "standard" | "imperial" | "metric";
     timeFormat: 24 | 12;
     limits: {
-      aqiLimit: number;
+      aqi: number;
       lowTemp: number;
       highTemp: number;
     };

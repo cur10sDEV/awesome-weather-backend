@@ -20,7 +20,7 @@ export class UserMapper {
         units: data.units,
         timeFormat: data.timeFormat,
         limits: {
-          aqiLimit: data.limits.aqiLimit,
+          aqi: data.limits.aqi,
           lowTemp: data.limits.lowTemp,
           highTemp: data.limits.highTemp,
         },
@@ -41,7 +41,7 @@ export class UserMapper {
         units: data.units,
         timeFormat: data.timeFormat,
         limits: {
-          aqiLimit: data.limits.aqiLimit,
+          aqi: data.limits.aqi,
           highTemp: data.limits.highTemp,
           lowTemp: data.limits.lowTemp,
         },
