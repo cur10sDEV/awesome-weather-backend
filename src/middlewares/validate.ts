@@ -18,7 +18,7 @@ const validate =
       let err = error;
 
       if (err instanceof z.ZodError) {
-        err = err.issues.map((e) => ({ path: e.path[0], message: e.message }));
+        err = err.issues.map((e) => ({ path: e.path[e.path.length - 1], message: e.message }));
       }
 
       next(new ApiError(HttpStatusCode.BAD_REQUEST, err[0]?.message || err?.message || "Bad Request", [...err]));
