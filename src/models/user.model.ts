@@ -1,16 +1,12 @@
 import { Document, Model, model, models, Schema } from "mongoose";
+import { ICity } from "./city.model";
 
 export interface IUser extends Document {
   clerkId: string;
   username: string;
   email: string;
   avatar: string;
-  city: {
-    name: string;
-    country: string;
-    lat: string;
-    lon: string;
-  };
+  city: ICity;
   units: "standard" | "imperial" | "metric";
   timeFormat: 24 | 12;
   limits: {
@@ -41,8 +37,10 @@ const userSchema = new Schema<IUser, UserModel>({
     lowTemp: { type: Number, required: true, default: 10, min: -58, max: 299 },
     highTemp: { type: Number, required: true, default: 35, min: 10, max: 374 },
   },
-  savedCities: { type: [Schema.Types.ObjectId], ref: "City" },
+  savedCities: [{ type: Schema.Types.ObjectId, ref: "City" }],
 });
+
+// userSchema.path("savedCities").validate((arr) => arr.length <= 5, "No more cities can be saved! max 5 allowed!");
 
 export const User: UserModel = models.User || model<IUser, UserModel>("User", userSchema);
 
