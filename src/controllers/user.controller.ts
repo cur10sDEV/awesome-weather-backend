@@ -52,4 +52,27 @@ export class UserController {
       next(error);
     }
   };
+
+  static getSavedCities: RequestHandler = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        throw new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized access!");
+      }
+
+      const savedCities = await UserService.getSavedCities(userId);
+
+      if (!savedCities) {
+        throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to fetch saved cities!");
+      }
+
+      return res
+        .status(HttpStatusCode.OK)
+        .json(new ApiResponse(HttpStatusCode.OK, "User's saved cities fetched successfully!", savedCities.data));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  };
 }

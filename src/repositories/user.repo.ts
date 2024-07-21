@@ -1,22 +1,24 @@
-import { User } from "@/models/user.model";
+import { Models } from "@/models";
+import { ICity } from "@/models/city.model";
 import { UpdateUserSchema } from "@/schemas/user.schema";
 import { IUserRegistration } from "@/types/user";
+import { HydratedDocument } from "mongoose";
 
 export class UserRepo {
   static async getUserById(userId: string) {
-    const user = await User.findById(userId);
+    const user = await Models.User.findById(userId);
 
     return user;
   }
 
   static async getUserByClerkId(clerkId: string) {
-    const user = await User.findOne({ clerkId: clerkId });
+    const user = await Models.User.findOne({ clerkId: clerkId });
 
     return user;
   }
 
   static async createUser(data: IUserRegistration) {
-    const user = await User.create({
+    const user = await Models.User.create({
       clerkId: data.clerkId,
       email: data.email,
       avatar: data.avatar,
@@ -27,7 +29,7 @@ export class UserRepo {
   }
 
   static async updateUser(data: IUserRegistration) {
-    const user = await User.findOneAndUpdate(
+    const user = await Models.User.findOneAndUpdate(
       { clerkId: data.clerkId },
       {
         clerkId: data.clerkId,
@@ -41,16 +43,22 @@ export class UserRepo {
   }
 
   static async deleteUser(clerkId: string) {
-    const user = await User.findOneAndDelete({ clerkId: clerkId });
+    const user = await Models.User.findOneAndDelete({ clerkId: clerkId });
 
     return user;
   }
 
   static async updateUserSettings(userId: string, data: UpdateUserSchema) {
-    const updatedSettings = await User.findByIdAndUpdate(userId, {
+    const updatedSettings = await Models.User.findByIdAndUpdate(userId, {
       ...data,
     });
 
     return updatedSettings !== null;
+  }
+
+  static async getUserWithSavedCities(userId: string) {
+    const user = await Models.User.findById(userId).populate<{ savedCities: HydratedDocument<ICity>[] }>("savedCities");
+
+    return user;
   }
 }

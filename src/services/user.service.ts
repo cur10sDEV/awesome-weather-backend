@@ -2,7 +2,9 @@ import logger from "@/configs/logger";
 import { UserMapper } from "@/mappers/user.mapper";
 import { UserRepo } from "@/repositories/user.repo";
 import { UpdateUserSchema } from "@/schemas/user.schema";
+import { Units } from "@/types";
 import { IUserRegistration } from "@/types/user";
+import { WeatherService } from "./weather.service";
 
 export class UserService {
   static async getUserProfile(userId: string) {
@@ -95,6 +97,49 @@ export class UserService {
       }
 
       return true;
+    } catch (error) {
+      logger.error(error);
+      return null;
+    }
+  }
+
+  static async getSavedCities(userId: string) {
+    try {
+      const user = await UserRepo.getUserWithSavedCities(userId);
+
+      if (!user) {
+        return null;
+      }
+
+      const savedCities = user.savedCities.map((city) => ({
+        _id: String(city._id),
+        name: city.name,
+        lat: city.lat,
+        lon: city.lon,
+        country: city.country,
+      }));
+
+      const savedCitiesWithWeatherInfo = await Promise.all(
+        savedCities.map(async (city) => {
+          const weatherInfo = await WeatherService.getWeatherData(city.lat, city.lon, Units[user.units]);
+
+          if (!weatherInfo) return null;
+
+          return {
+            city: { ...city },
+            weather: { ...weatherInfo?.data.current },
+          };
+        })
+      );
+
+      if (!savedCitiesWithWeatherInfo || savedCitiesWithWeatherInfo.includes(null)) {
+        return null;
+      }
+
+      // @ts-ignore
+      const savedCitiesDto = UserMapper.toSavedCitiesDTO(savedCitiesWithWeatherInfo);
+
+      return savedCitiesDto;
     } catch (error) {
       logger.error(error);
       return null;

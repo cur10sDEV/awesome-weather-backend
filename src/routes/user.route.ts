@@ -7,5 +7,6 @@ const router = Router();
 
 router.get("/me", UserController.getUserProfile);
 router.put("/settings", validate(updateUserSchema), UserController.updateUserSettings);
+router.get("/savedCities", UserController.getSavedCities);
 
 export default router;

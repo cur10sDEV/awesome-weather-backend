@@ -41,3 +41,17 @@ export interface IUserProfileDTO {
     };
   };
 }
+
+export interface ISavedCitiesDTO {
+  data: {
+    id: string;
+    name: string;
+    country: string;
+    lat: string;
+    lon: string;
+    weather: {
+      temp: number;
+      main: string;
+    };
+  }[];
+}
