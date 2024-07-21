@@ -5,16 +5,16 @@ interface ICurrentWeatherData {
   dt: number;
   sunrise: number;
   sunset: number;
-  temp: Number;
-  feels_like: Number;
-  pressure: Number;
-  humidity: Number; // %
-  dew_point: Number;
-  clouds: Number; // %
-  uvi: Number;
-  visibility: Number; // metres
-  wind_speed: Number; // metres/sec but depends on units
-  wind_deg: Number; // deg
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number; // %
+  dew_point: number;
+  clouds: number; // %
+  uvi: number;
+  visibility: number; // metres
+  wind_speed: number; // metres/sec but depends on units
+  wind_deg: number; // deg
   weather: {
     id: string;
     main: string;
@@ -25,23 +25,23 @@ interface ICurrentWeatherData {
 
 interface IHourlyWeatherData {
   dt: number;
-  temp: Number;
-  feels_like: Number;
-  pressure: Number;
-  humidity: Number; // %
-  dew_point: Number;
-  clouds: Number; // %
-  uvi: Number;
-  visibility: Number; // metres
-  wind_speed: Number; // metres/sec but depends on units
-  wind_deg: Number; // deg
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number; // %
+  dew_point: number;
+  clouds: number; // %
+  uvi: number;
+  visibility: number; // metres
+  wind_speed: number; // metres/sec but depends on units
+  wind_deg: number; // deg
   weather: {
     id: string;
     main: string;
     description: string;
     icon: string;
   }[];
-  pop: Number; // Probability of precipitation
+  pop: number; // Probability of precipitation
 }
 
 interface IDailyWeatherData {
@@ -52,33 +52,33 @@ interface IDailyWeatherData {
   moonset: number;
   summary: string;
   temp: {
-    day: Number;
-    min: Number;
-    max: Number;
-    night: Number;
-    eve: Number;
-    morn: Number;
+    day: number;
+    min: number;
+    max: number;
+    night: number;
+    eve: number;
+    morn: number;
   };
   feels_like: {
-    day: Number;
-    night: Number;
-    eve: Number;
-    morn: Number;
+    day: number;
+    night: number;
+    eve: number;
+    morn: number;
   };
-  pressure: Number;
-  humidity: Number; // %
-  dew_point: Number;
-  clouds: Number; // %
-  uvi: Number;
-  wind_speed: Number; // metres/sec but depends on units
-  wind_deg: Number; // deg
+  pressure: number;
+  humidity: number; // %
+  dew_point: number;
+  clouds: number; // %
+  uvi: number;
+  wind_speed: number; // metres/sec but depends on units
+  wind_deg: number; // deg
   weather: {
     id: string;
     main: string;
     description: string;
     icon: string;
   }[];
-  pop: Number; // Probability of precipitation
+  pop: number; // Probability of precipitation
 }
 
 interface IWeatherAlertData {
@@ -100,8 +100,8 @@ interface IWeatherApiResponseData {
 
 interface IAqiApiResponseData {
   coord: {
-    lat: Number;
-    lon: Number;
+    lat: number;
+    lon: number;
   };
   list: {
     main: {

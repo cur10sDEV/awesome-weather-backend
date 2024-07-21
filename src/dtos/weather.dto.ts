@@ -8,29 +8,29 @@ export interface IWeatherDTO {
     lon: number;
     current: {
       dateTime: number;
-      temp: Number;
-      feelsLike: Number;
+      temp: number;
+      feelsLike: number;
       main: string;
       description: string;
-      pressure: Number;
-      humidity: Number;
-      windSpeed: Number;
-      pop: Number;
-      uvi: Number;
+      pressure: number;
+      humidity: number;
+      windSpeed: number;
+      pop: number;
+      uvi: number;
       sunrise: number;
       sunset: number;
     };
     hourly: {
       dateTime: number;
-      temp: Number;
-      pop: Number;
+      temp: number;
+      pop: number;
       icon: string;
     }[];
     daily: {
       dateTime: number;
-      maxTemp: Number;
-      minTemp: Number;
-      pop: Number;
+      maxTemp: number;
+      minTemp: number;
+      pop: number;
       icon: string;
     }[];
   };
