@@ -1,6 +1,7 @@
 import { Units } from "@/types";
 import z from "zod";
 
+// min and max values are min and max values of all units respectively
 export const updateUserSchema = z.object({
   body: z.object({
     city: z.object({
@@ -29,4 +30,15 @@ export const updateUserSchema = z.object({
 
 export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
 
-// min and max values are min and max values of all units respectively
+export const addCitySchema = z.object({
+  body: z.object({
+    name: z.string().min(1).max(60),
+    country: z.string().min(1).max(60),
+    lat: z.string().min(1).max(100),
+    lon: z.string().min(1).max(60),
+  }),
+  params: z.object({}),
+  query: z.object({}),
+});
+
+export type AddNewSavedCitySchema = z.infer<typeof addCitySchema>;

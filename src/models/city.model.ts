@@ -1,4 +1,4 @@
-import { model, models, Schema } from "mongoose";
+import { Document, Model, model, models, Schema } from "mongoose";
 
 export interface ICity extends Document {
   name: string;
@@ -7,6 +7,8 @@ export interface ICity extends Document {
   lon: string;
 }
 
+type CityModel = Model<ICity>;
+
 const citySchema = new Schema<ICity>({
   name: { type: String, required: true, min: 3, max: 60 },
   country: { type: String, required: true, min: 3, max: 60 },
@@ -14,4 +16,4 @@ const citySchema = new Schema<ICity>({
   lon: { type: String, required: true, min: 1, max: 100 },
 });
 
-export const City = models.City || model("City", citySchema);
+export const City: CityModel = models.City || model<ICity, CityModel>("City", citySchema);

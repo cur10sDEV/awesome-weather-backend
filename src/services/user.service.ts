@@ -1,7 +1,7 @@
 import logger from "@/configs/logger";
 import { UserMapper } from "@/mappers/user.mapper";
 import { UserRepo } from "@/repositories/user.repo";
-import { UpdateUserSchema } from "@/schemas/user.schema";
+import { AddNewSavedCitySchema, UpdateUserSchema } from "@/schemas/user.schema";
 import { Units } from "@/types";
 import { IUserRegistration } from "@/types/user";
 import { WeatherService } from "./weather.service";
@@ -140,6 +140,21 @@ export class UserService {
       const savedCitiesDto = UserMapper.toSavedCitiesDTO(savedCitiesWithWeatherInfo);
 
       return savedCitiesDto;
+    } catch (error) {
+      logger.error(error);
+      return null;
+    }
+  }
+
+  static async addNewSaveCity(userId: string, data: AddNewSavedCitySchema) {
+    try {
+      const isAdded = await UserRepo.addNewSaveCity(userId, data);
+
+      if (!isAdded) {
+        return null;
+      }
+
+      return true;
     } catch (error) {
       logger.error(error);
       return null;

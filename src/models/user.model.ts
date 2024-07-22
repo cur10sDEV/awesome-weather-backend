@@ -40,7 +40,7 @@ const userSchema = new Schema<IUser, UserModel>({
   savedCities: [{ type: Schema.Types.ObjectId, ref: "City" }],
 });
 
-// userSchema.path("savedCities").validate((arr) => arr.length <= 5, "No more cities can be saved! max 5 allowed!");
+// TODO: add validation so that users is not allowed to have more than 5 saved cities
 
 export const User: UserModel = models.User || model<IUser, UserModel>("User", userSchema);
 

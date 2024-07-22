@@ -75,4 +75,29 @@ export class UserController {
       next(error);
     }
   };
+
+  static addCity: RequestHandler = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        throw new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized access!");
+      }
+
+      const data = req.body;
+
+      const isAdded = UserService.addNewSaveCity(userId, data);
+
+      if (!isAdded) {
+        throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to add city to saved cities!");
+      }
+
+      return res
+        .status(HttpStatusCode.OK)
+        .json(new ApiResponse(HttpStatusCode.OK, "City added to saved cities successfully!"));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  };
 }
