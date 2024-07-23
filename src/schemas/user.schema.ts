@@ -41,4 +41,14 @@ export const addCitySchema = z.object({
   query: z.object({}),
 });
 
-export type AddNewSavedCitySchema = z.infer<typeof addCitySchema>;
+export type AddCitySchema = z.infer<typeof addCitySchema>;
+
+export const removeCitySchema = z.object({
+  body: z.object({}),
+  params: z.object({
+    id: z.string().min(1).max(64),
+  }),
+  query: z.object({}),
+});
+
+export type RemoveCitySchema = z.infer<typeof removeCitySchema>;

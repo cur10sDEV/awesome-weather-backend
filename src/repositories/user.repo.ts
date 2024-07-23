@@ -1,7 +1,7 @@
 import { runInTransaction } from "@/libs/mongoose/runInTransation";
 import { Models } from "@/models";
 import { ICity } from "@/models/city.model";
-import { AddNewSavedCitySchema, UpdateUserSchema } from "@/schemas/user.schema";
+import { AddCitySchema, UpdateUserSchema } from "@/schemas/user.schema";
 import { IUserRegistration } from "@/types/user";
 import { HydratedDocument } from "mongoose";
 
@@ -63,7 +63,7 @@ export class UserRepo {
     return user;
   }
 
-  static async addNewSaveCity(userId: string, data: AddNewSavedCitySchema) {
+  static async addNewSaveCity(userId: string, data: AddCitySchema) {
     // run a db transaction to create a new city and add it to user's saved cities
     return await runInTransaction(async (session) => {
       // create a new city
@@ -81,6 +81,22 @@ export class UserRepo {
         userId,
         {
           $push: { savedCities: newCity[0]._id },
+        },
+        { session }
+      );
+    });
+  }
+
+  static async removeSavedCity(userId: string, cityId: string) {
+    return await runInTransaction(async (session) => {
+      const city = await Models.City.findByIdAndDelete(cityId, {
+        session,
+      });
+
+      await Models.User.findByIdAndUpdate(
+        userId,
+        {
+          $pull: { savedCities: city?._id },
         },
         { session }
       );

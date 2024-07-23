@@ -1,4 +1,5 @@
 import logger from "@/configs/logger";
+import { CityService } from "@/services/city.service";
 import { UserService } from "@/services/user.service";
 import { ApiError } from "@/utils/apiError";
 import { ApiResponse } from "@/utils/apiResponse";
@@ -98,6 +99,39 @@ export class UserController {
     } catch (error) {
       logger.error(error);
       next(error);
+    }
+  };
+
+  static removeCity: RequestHandler = async (req, res, next) => {
+    {
+      try {
+        const userId = req.user?.id;
+
+        if (!userId) {
+          throw new ApiError(HttpStatusCode.UNAUTHORIZED, "Unauthorized access!");
+        }
+
+        const cityId = req.params.id;
+
+        const city = await CityService.getCityById(cityId);
+
+        if (!city) {
+          throw new ApiError(HttpStatusCode.BAD_REQUEST, "Failed to delete city from saved cities!");
+        }
+
+        const isRemoved = await UserService.removeSavedCity(userId, city._id);
+
+        if (!isRemoved) {
+          throw new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to delete city from saved cities!");
+        }
+
+        return res
+          .status(HttpStatusCode.OK)
+          .json(new ApiResponse(HttpStatusCode.OK, "City deleted from saved cities successfully!"));
+      } catch (error) {
+        logger.error(error);
+        next(error);
+      }
     }
   };
 }
