@@ -118,25 +118,25 @@ export class UserService {
         country: city.country,
       }));
 
-      const savedCitiesWithWeatherInfo = await Promise.all(
-        savedCities.map(async (city) => {
-          const weatherInfo = await WeatherService.getWeatherData(city.lat, city.lon, Units[user.units]);
-
-          if (!weatherInfo) return null;
-
-          return {
-            city: { ...city },
-            weather: { ...weatherInfo?.data.current },
-          };
-        })
+      const weatherPromises = savedCities.map((city) =>
+        WeatherService.getWeatherData(city.lat, city.lon, Units[user.units])
       );
 
-      if (!savedCitiesWithWeatherInfo || savedCitiesWithWeatherInfo.includes(null)) {
-        return null;
-      }
+      const weatherResults = await Promise.all(weatherPromises);
 
-      // @ts-ignore
-      const savedCitiesDto = UserMapper.toSavedCitiesDTO(savedCitiesWithWeatherInfo);
+      const savedCitiesWithWeatherInfo = savedCities.map((city, index) => {
+        if (weatherResults[index] === null || weatherResults[index] === undefined) {
+          return null;
+        }
+        return {
+          city: { ...city },
+          weather: weatherResults[index].data.current,
+        };
+      });
+
+      const validSavedCitiesWithWeatherInfo = savedCitiesWithWeatherInfo.filter((item) => item !== null);
+
+      const savedCitiesDto = UserMapper.toSavedCitiesDTO(validSavedCitiesWithWeatherInfo);
 
       return savedCitiesDto;
     } catch (error) {
