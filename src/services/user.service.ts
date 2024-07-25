@@ -74,14 +74,13 @@ export class UserService {
 
   static async deleteUser(clerkId: string) {
     try {
-      const user = await UserRepo.deleteUser(clerkId);
+      const isDeleted = await UserRepo.deleteUser(clerkId);
 
-      if (!user) {
+      if (!isDeleted) {
         return null;
       }
 
-      const userDto = UserMapper.toDTO(user);
-      return userDto;
+      return isDeleted;
     } catch (err) {
       logger.error(err);
       return null;

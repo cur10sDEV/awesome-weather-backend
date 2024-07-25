@@ -44,9 +44,13 @@ export class UserRepo {
   }
 
   static async deleteUser(clerkId: string) {
-    const user = await Models.User.findOneAndDelete({ clerkId: clerkId });
+    return await runInTransaction(async (session) => {
+      // delete user
+      const user = await Models.User.findOneAndDelete({ clerkId: clerkId });
 
-    return user;
+      // delete user's all saved cities
+      await Models.City.deleteMany({ _id: { $in: user?.savedCities } });
+    });
   }
 
   static async updateUserSettings(userId: string, data: UpdateUserSchema) {

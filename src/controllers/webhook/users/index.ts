@@ -83,11 +83,13 @@ export const userWebhookHandler: RequestHandler = async function (req, res, next
   if (eventType === "user.deleted") {
     const id = evt.data.id;
 
-    const user = await UserService.deleteUser(id);
+    const isDeleted = await UserService.deleteUser(id);
 
-    return res
-      .status(HttpStatusCode.OK)
-      .json(new ApiResponse(HttpStatusCode.OK, "User deleted successfully!", { user }));
+    if (!isDeleted) {
+      return next(new ApiError(HttpStatusCode.INTERNAL_SERVER_ERROR, "Failed to delete the user!"));
+    }
+
+    return res.status(HttpStatusCode.OK).json(new ApiResponse(HttpStatusCode.OK, "User deleted successfully!"));
   }
   return res.status(HttpStatusCode.OK).json(new ApiResponse(HttpStatusCode.OK, "Webhook recieved!"));
 };
